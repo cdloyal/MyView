@@ -1,0 +1,17 @@
+文本控件：TextView、EditText
+按钮控件：Button ImageButton
+进度条：ProgressBar
+单选按钮：RadioButton、RadioGroup
+复选按钮：CheckBox
+状态开关按钮：TogleButton
+时钟控件:AnalogClock DigitalClock
+日期和时钟选择控件DatePicker TimePicker
+
+系统控件重新组合
+自定义类继承view
+自定义继承viewgroup
+
+
+View Animation 补间动画（普通动画、视图动画)，视图过去了，属性还在
+Drawable Animation 帧动画
+Property Animation 属性动画
