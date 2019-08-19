@@ -13,4 +13,12 @@
         android:layout_height="wrap_content"
         android:text="youku"
         android:onClick="youku"/>
+
+    <Button
+        android:id="@+id/viewpage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="viewpage"
+        android:onClick="viewpage"/>
+
 </LinearLayout>

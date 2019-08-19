@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-public class Youku extends AppCompatActivity {
+public class YoukuActivity extends AppCompatActivity {
 
     private ImageView icon_menu,icon_home;
     private RelativeLayout level1,level2,level3;
@@ -27,6 +27,9 @@ public class Youku extends AppCompatActivity {
         MyOnclick myOnclick = new MyOnclick();
         icon_menu.setOnClickListener(myOnclick);
         icon_home.setOnClickListener(myOnclick);
+        level1.setOnClickListener(myOnclick);
+        level2.setOnClickListener(myOnclick);
+        level3.setOnClickListener(myOnclick);
     }
 
     private class MyOnclick implements View.OnClickListener{
@@ -34,6 +37,15 @@ public class Youku extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             switch (v.getId()){
+                case R.id.level1:
+
+                    break;
+                case R.id.level2:
+
+                    break;
+                case R.id.level3:
+
+                    break;
                 case R.id.icon_home:
                     //如果三级菜单和二级菜单时显示的，都设置隐藏
                     //如果都是隐藏的，二级菜单显示
@@ -47,7 +59,7 @@ public class Youku extends AppCompatActivity {
                         }
                     }else {
                         islevel2Show=true;
-                        ViewTool.showView(level2);
+                        ViewTool.showView(level2,0);
                     }
                     break;
                 case R.id.icon_menu:
@@ -57,7 +69,7 @@ public class Youku extends AppCompatActivity {
                         islevel3Show = false;
                     }else {
                         //显示
-                        ViewTool.showView(level3);
+                        ViewTool.showView(level3,0);
                         islevel3Show = true;
                     }
                     break;

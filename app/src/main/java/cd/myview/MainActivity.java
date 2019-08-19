@@ -16,6 +16,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void youku(View view) {
 
-        startActivity(new Intent(this,Youku.class));
+        startActivity(new Intent(this, YoukuActivity.class));
+    }
+
+    public void viewpage(View view) {
+        startActivity(new Intent(this, ViewPageActivity.class));
     }
 }
