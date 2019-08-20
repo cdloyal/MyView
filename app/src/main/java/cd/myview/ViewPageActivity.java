@@ -1,5 +1,6 @@
 package cd.myview;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -24,6 +26,8 @@ public class ViewPageActivity extends AppCompatActivity {
     private ViewPager viewpager;
     private TextView title;
     private LinearLayout ll_ponit_prout;
+    private int startPos ;
+    private boolean isDragged = false;
     //listview的使用
     //1、在布局文件定义listview
     //2、实例化listview
@@ -50,7 +54,7 @@ public class ViewPageActivity extends AppCompatActivity {
 
     private ArrayList<ImageView> imageViews;
 
-    private Handler handler ;
+    private MyHandler handler ;
     private class MyHandler extends Handler{
         private WeakReference<Activity> reference;
         public MyHandler(Activity activity){
@@ -59,10 +63,16 @@ public class ViewPageActivity extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            Log.d(TAG,"handleMessage");
             if(reference==null)
                 return;
 
-            viewpager.setCurrentItem(++prePosition);
+            int item = viewpager.getCurrentItem()+1==Integer.MAX_VALUE?
+                    startPos+Integer.MAX_VALUE%imageViews.size():viewpager.getCurrentItem()+1;
+            viewpager.setCurrentItem(item);
+
+            //延时发消息，循环发消息
+            handler.sendEmptyMessageDelayed(0,4000);
         }
     };
 
@@ -74,8 +84,6 @@ public class ViewPageActivity extends AppCompatActivity {
         viewpager = findViewById(R.id.viewpager);
         title = findViewById(R.id.title);
         ll_ponit_prout = findViewById(R.id.ll_ponit_prout);
-
-        handler = new MyHandler(this);
 
         //ViewPager的使用
         //1、在布局文件定义ViewPager
@@ -113,11 +121,12 @@ public class ViewPageActivity extends AppCompatActivity {
         viewpager.setAdapter(myPagerAdapter);
         viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int i, float v, int i1) {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 //当页面滚动时回调的方法
                 //position:当前页面位置
                 //positionOffset:当前滑动页面的百分比
                 //positionOffsetPixels:在屏幕上滑动的像素
+//                Log.d(TAG,"onPageScrolled position="+position+",positionOffset="+positionOffset+",positionOffsetPixels="+positionOffsetPixels);
             }
 
             @Override
@@ -125,6 +134,7 @@ public class ViewPageActivity extends AppCompatActivity {
                 //当页面选中时回调的方法
                 //设置页面文本信息
                 //把上一个高亮点设置灰色
+//                Log.d(TAG,"onPageSelected position="+position);
 
                 int pos = position%imageViews.size();
                 title.setText(imageDescriptions[pos]);
@@ -134,27 +144,87 @@ public class ViewPageActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPageScrollStateChanged(int i) {
+            public void onPageScrollStateChanged(int status) {
                 //当页面滚动状态变化
                 //静止--滑动
                 //滑动--静止
                 //静止--拖拽
+//                Log.d(TAG,"onPageScrollStateChanged status="+status);
+                switch (status){
+                    case ViewPager.SCROLL_STATE_DRAGGING:   //拖拽
+                        handler.removeCallbacksAndMessages(null);
+                        isDragged = true;
+                        break;
+                    case ViewPager.SCROLL_STATE_SETTLING:   //滑动
+                        break;
+                    case ViewPager.SCROLL_STATE_IDLE:       //静止
+                        if(isDragged){
+                            handler.removeCallbacksAndMessages(null);   //有可能刚松手遇上消息就跳了两张图了，发消息前先取消
+                            handler.sendEmptyMessageDelayed(0,4000);
+                            isDragged = false;
+                        }
+                        break;
+                }
+
             }
         });
 
         //设置中间位置位起始位置
-        int startPos = Integer.MAX_VALUE/2-(Integer.MAX_VALUE/2)%imageViews.size();
+        startPos = Integer.MAX_VALUE/2-(Integer.MAX_VALUE/2)%imageViews.size();
         viewpager.setCurrentItem(startPos);
+
+        handler = new MyHandler(this);
+        handler.sendEmptyMessageDelayed(0,4000);
     }
 
     class MyPagerAdapter extends PagerAdapter{
 
+
+        @SuppressLint("ClickableViewAccessibility")
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             int newPos = position%imageViews.size();
             ImageView imageView = imageViews.get(newPos);
+            imageView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    //手指按下，不滑动，松开。 ACTION_DOWN--ACTION_UP
+                    //手指按下，滑动，静止，松开。ACTION_DOWN--ACTION_MOVE--ACTION_CANCEL，手指在静止的时候已经回调ACTION_CANCEL，不触发ACTION_UP，
+
+                    switch (event.getAction()){
+                        case MotionEvent.ACTION_DOWN:   //按下
+                            Log.d(TAG,"view="+v+"MotionEvent.ACTION_DOWN");
+//                            handler.removeCallbacksAndMessages(null);   //将消息队列和任务都移除
+                            break;
+                        case MotionEvent.ACTION_MOVE:   //移动
+                            Log.d(TAG,"view="+v+"MotionEvent.ACTION_MOVE");
+                            break;
+                        case MotionEvent.ACTION_CANCEL:   //取消，不会再触发
+                            Log.d(TAG,"view="+v+"MotionEvent.ACTION_CANCEL");
+//                            handler.sendEmptyMessageDelayed(0,4000);
+                            break;
+                        case MotionEvent.ACTION_UP:     //离开
+                            Log.d(TAG,"view="+v+"MotionEvent.ACTION_UP");
+//                            handler.sendEmptyMessageDelayed(0,4000);
+                            break;
+                    }
+                    return false;    //返回true，屏蔽onclick
+                }
+            });
+
+            imageView.setTag(newPos);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = (int) v.getTag();
+
+                    Log.d(TAG,"onclick title="+imageDescriptions[position]);
+                }
+            });
+
             container.addView(imageView);
+
             Log.d(TAG,"instantiateItem=="+newPos+"imageView="+imageView);
             return imageView;
         }
@@ -179,7 +249,7 @@ public class ViewPageActivity extends AppCompatActivity {
 
         @Override
         public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
-            Log.d(TAG,"isViewFromObject()，view="+view+"o="+o);
+//            Log.d(TAG,"isViewFromObject()，view="+view+"o="+o);
             return view==o;
         }
     }

@@ -22,4 +22,8 @@ public class MainActivity extends AppCompatActivity {
     public void viewpage(View view) {
         startActivity(new Intent(this, ViewPageActivity.class));
     }
+
+    public void popup_window(View view) {
+        startActivity(new Intent(this, PopupActivity.class));
+    }
 }

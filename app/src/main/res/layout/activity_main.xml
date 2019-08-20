@@ -21,4 +21,11 @@
         android:text="viewpage"
         android:onClick="viewpage"/>
 
+    <Button
+        android:id="@+id/popup_window"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="viewpage"
+        android:onClick="popup_window"/>
+
 </LinearLayout>
