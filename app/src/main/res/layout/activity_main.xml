@@ -25,7 +25,28 @@
         android:id="@+id/popup_window"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="viewpage"
+        android:text="popup_window"
         android:onClick="popup_window"/>
+
+    <Button
+        android:id="@+id/toggle_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="toggle_button"
+        android:onClick="toggle_button"/>
+
+    <Button
+        android:id="@+id/auto_attrs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="auto_attrs"
+        android:onClick="auto_attrs"/>
+
+    <Button
+        android:id="@+id/myviewpager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="myviewpager"
+        android:onClick="myviewpager"/>
 
 </LinearLayout>

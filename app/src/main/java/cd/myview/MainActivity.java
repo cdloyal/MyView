@@ -26,4 +26,16 @@ public class MainActivity extends AppCompatActivity {
     public void popup_window(View view) {
         startActivity(new Intent(this, PopupActivity.class));
     }
+
+    public void toggle_button(View view) {
+        startActivity(new Intent(this, TggBtnActivity.class));
+    }
+
+    public void auto_attrs(View view) {
+        startActivity(new Intent(this, AutoAttrsActivity.class));
+    }
+
+    public void myviewpager(View view) {
+        startActivity(new Intent(this, MyViewpagerActivity.class));
+    }
 }

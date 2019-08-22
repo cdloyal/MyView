@@ -9,9 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PopupActivity"></activity>
+        <activity android:name=".MyViewpagerActivity"></activity>
+        <activity android:name=".AutoAttrsActivity" />
+        <activity android:name=".PopupActivity" />
         <activity android:name=".ViewPageActivity" />
         <activity android:name=".YoukuActivity" />
+        <activity android:name=".TggBtnActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
