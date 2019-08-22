@@ -32,6 +32,10 @@ onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     int heightMode = MeasureSpec.getMode(heightMeasureSpec);
     int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
+    match_parent    填充
+    wrap_content    包裹
+    8dp             固定的
+
     MeasureSpec.AT_MOST;
     MeasureSpec.UNSPECIFIED;
     MeasureSpec.EXACTLY;
