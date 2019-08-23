@@ -60,16 +60,42 @@ public class MyToggleButton extends View implements View.OnClickListener {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
+        setMeasure(getSuggestedMinimumHeight(),widthMeasureSpec);
 
         setMeasuredDimension(switch_background.getWidth(),switch_background.getHeight());
 //        Log.d("chenda","switch_background.getWidth()="+switch_background.getWidth()+"，switch_background.getWidth()="+switch_background.getWidth());
 //        Log.d("chenda","widthMeasureSpec="+widthMeasureSpec+"，heightMeasureSpec="+heightMeasureSpec);
 //        setMeasuredDimension(widthMeasureSpec,heightMeasureSpec);
+    }
+
+
+    private int setMeasure(int size,int measureSpec){
+        int specMode = MeasureSpec.getMode(measureSpec);
+        int specSize = MeasureSpec.getSize(measureSpec);
+        int result = size;
+
+        switch (specMode){
+            case MeasureSpec.AT_MOST:       //wrap_content,父控件大小受子控件影响，specSize父控件给的控件最大值
+                if(specSize<size){
+                    //当specMode为AT_MOST，并且父控件指定的尺寸specSize小于View自己想要的尺寸时，
+                    //我们就会用掩码MEASURED_STATE_TOO_SMALL向量算结果加入尺寸太小的标记
+                    //这样其父ViewGroup就可以通过该标记其给子View的尺寸太小了，
+                    //然后可能分配更大一点的尺寸给子View
+                    result = size | MEASURED_STATE_TOO_SMALL;
+                }else {
+                    result = size;
+                }
+                break;
+            case MeasureSpec.EXACTLY:       //fill_parent,8dp，父控件大小希望子控件的大小为specSize
+                result = specSize;
+                break;
+            case MeasureSpec.UNSPECIFIED:   //子控件大小不受限制
+                break;
+            default:
+                result = size;
+        }
+        return result;
     }
 
     @Override

@@ -26,6 +26,8 @@ public class MyViewpager extends ViewGroup {
     private Scroller myScroller;
     private ViewPager.OnPageChangeListener onPageChangeListener;
     private int preIndex;
+    private float downX;
+    private float downY;
 
     public MyViewpager(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -78,6 +80,15 @@ public class MyViewpager extends ViewGroup {
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        for(int i=0;i<getChildCount();i++){
+            View view = getChildAt(i);
+            view.measure(widthMeasureSpec,heightMeasureSpec);
+        }
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         //遍历每个还是，给每个孩子指定在屏幕的坐标位置
         for(int i=0;i<getChildCount();i++){
@@ -87,6 +98,47 @@ public class MyViewpager extends ViewGroup {
         }
     }
 
+    /**
+     * @method           事件拦截
+     * @description     描述一下方法的作用
+     * @date:            2019/8/23 16:24
+     * @author:          陈达
+     * @param
+     * @return
+     */
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        super.onInterceptTouchEvent(event);
+
+//        gestureDetector.onTouchEvent(event);    //为什么onTouchEvent()也要调这个方法?
+                                                //MotionEvent.ACTION_DOWN过来一个事件，调onInterceptTouchEvent()要不要拦截，哦，不拦截
+                                                //第一个MotionEvent.ACTION_MOVE过来，onInterceptTouchEvent()要不要拦截，哦，拦截
+                                                //拦截之后剩下的Event（包括剩下的ACTION_MOVE，ACTION_UP）交给onTouchEvent()处理
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                downX = event.getX();
+                downY = event.getY();
+                gestureDetector.onTouchEvent(event);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float endX = event.getX();
+                float endY = event.getY();
+                float distanceX = Math.abs(endX-downX);
+                float distanceY = Math.abs(endY-downY);
+                if(distanceX>=distanceY && distanceX>5){
+//                    gestureDetector.onTouchEvent(event);
+                    return true;
+                }else { //(distanceX<distanceY，listview动，但是上面手势已经识别横向滑动了
+//                    setPagerId(index);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+
+                break;
+        }
+
+        return false;
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
