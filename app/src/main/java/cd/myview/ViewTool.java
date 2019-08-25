@@ -28,6 +28,7 @@ public class ViewTool {
         animator.setDuration(500);
         animator.setStartDelay(startOffset);
         animator.start();
+
 //        view.setRotationX(view.getWidth()/2);
 //        view.setRotationY(view.getHeight());
         view.setPivotX(view.getWidth()/2);

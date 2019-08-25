@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MyViewpagerActivity"></activity>
+        <activity android:name=".SlideMenuActivity"></activity>
+        <activity android:name=".MyViewpagerActivity" />
         <activity android:name=".AutoAttrsActivity" />
         <activity android:name=".PopupActivity" />
         <activity android:name=".ViewPageActivity" />

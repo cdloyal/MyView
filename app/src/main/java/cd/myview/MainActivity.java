@@ -38,4 +38,7 @@ public class MainActivity extends AppCompatActivity {
     public void myviewpager(View view) {
         startActivity(new Intent(this, MyViewpagerActivity.class));
     }
+    public void slidemenu(View view) {
+        startActivity(new Intent(this, SlideMenuActivity.class));
+    }
 }
