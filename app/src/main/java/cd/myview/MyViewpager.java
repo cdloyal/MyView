@@ -1,8 +1,10 @@
 package cd.myview;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,6 +33,7 @@ public class MyViewpager extends ViewGroup {
 
     public MyViewpager(Context context, AttributeSet attrs) {
         super(context, attrs);
+        Log.d("chenda","MyViewpager MyViewpager()");
         initView(context);
 //        myScroller = new MyScroller();
         myScroller = new Scroller(context);
@@ -81,6 +84,7 @@ public class MyViewpager extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        Log.d("chenda","MyViewpager onMeasure()");
         for(int i=0;i<getChildCount();i++){
             View view = getChildAt(i);
             view.measure(widthMeasureSpec,heightMeasureSpec);
@@ -90,12 +94,19 @@ public class MyViewpager extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        Log.d("chenda","MyViewpager onLayout()");
         //遍历每个还是，给每个孩子指定在屏幕的坐标位置
         for(int i=0;i<getChildCount();i++){
             View childView = getChildAt(i);
 
             childView.layout(i*getWidth(),0,(i+1)*getWidth(),getHeight());
         }
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        Log.d("chenda","MyViewpager onDraw()");
     }
 
     /**

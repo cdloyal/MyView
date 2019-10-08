@@ -9,6 +9,13 @@
 
 
     <Button
+        android:id="@+id/myviewpager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="myviewpager"
+        android:onClick="myviewpager"/>
+
+    <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,12 +50,7 @@
         android:text="auto_attrs"
         android:onClick="auto_attrs"/>
 
-    <Button
-        android:id="@+id/myviewpager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="myviewpager"
-        android:onClick="myviewpager"/>
+
 
     <Button
         android:id="@+id/slidemenu"

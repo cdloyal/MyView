@@ -3,6 +3,7 @@ package cd.myview;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -16,9 +17,11 @@ public class MyViewpagerActivity extends Activity {
     private int childViews[] = {R.drawable.a1,R.drawable.a2,R.drawable.a3,R.drawable.a4,R.drawable.a5,R.drawable.a6};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("chenda","MyViewpagerActivity onCreate()");
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_viewpager);
+        Log.d("chenda","MyViewpagerActivity setContentView()");
 
         myViewpager = findViewById(R.id.myvp);
         rg_myvp = findViewById(R.id.rg_myvp);
